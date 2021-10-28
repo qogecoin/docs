@@ -10,7 +10,9 @@ network. However, it downloads and stores the entire history of Qogecoin
 transactions; depending on the speed of your computer and network connection,
 the synchronization process can take anywhere from a few hours to a day or more.
 
-Precompiled binaries are available on `GitHub <https://github.com/qogecoin/qogecoin/releases>`_.
+Precompiled binaries are available at `<https://github.com/qogecoin/qogecoin/releases>`_.
+
+Discord: `<https://discord.gg/T8uYSDmtde>`_.
 
 Running
 ---------------------

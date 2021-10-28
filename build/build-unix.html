@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building on Linux &#8212; Qogecoin docs</title>
+
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building on Windows" href="build-windows.html" />
+    <link rel="prev" title="Qogecoin Core 0.14.2" href="index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">Qogecoin docs</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Building on Linux
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-windows.html">
+   Building on Windows
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="REST-interface.html">
+   Unauthenticated REST Interface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dnsseed-policy.html">
+   Expectations for DNS Seed operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="benchmarking.html">
+   Benchmarking
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="files.html">
+   Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fuzzing.html">
+   Fuzz-testing Qogecoin Core
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="reduce-traffic.html">
+   Reduce Traffic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tor.html">
+   Tor Support
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="init.html">
+   Sample init scripts and service configuration for qogecoind
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="zmq.html">
+   Block and Transaction Broadcasting with ZeroMQ
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/qogecoin/qogecoin"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#to-build">
+   To Build
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependencies">
+   Dependencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#memory-requirements">
+   Memory Requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependency-build-instructions-ubuntu-debian">
+   Dependency Build Instructions: Ubuntu &amp; Debian
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependencies-for-the-gui-ubuntu-debian">
+   Dependencies for the GUI: Ubuntu &amp; Debian
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependency-build-instructions-fedora">
+   Dependency Build Instructions: Fedora
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#miniupnpc">
+   miniupnpc
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#berkeley-db">
+   Berkeley DB
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#security">
+   Security
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#disable-wallet-mode">
+   Disable-wallet mode
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#additional-configure-flags">
+   Additional Configure Flags
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-and-build-example-arch-linux">
+   Setup and Build Example: Arch Linux
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#arm-cross-compilation">
+   ARM Cross-compilation
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="section" id="building-on-linux">
+<h1>Building on Linux<a class="headerlink" href="#building-on-linux" title="Permalink to this headline">¶</a></h1>
+<p>Some notes on how to build Qogecoin Core in Unix.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Always use absolute paths to configure and compile qogecoin and the
+dependencies, for example, when specifying the path of the dependency:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>../dist/configure <span class="se">\</span>
+     --enable-cxx <span class="se">\</span>
+     --disable-shared <span class="se">\</span>
+     --with-pic <span class="se">\</span>
+     --prefix<span class="o">=</span><span class="nv">$BDB_PREFIX</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">BDB_PREFIX</span></code> must be an absolute path - it is defined using <code class="docutils literal notranslate"><span class="pre">$(pwd)</span></code>
+which ensures the usage of the absolute path.</p>
+</div>
+<div class="section" id="to-build">
+<h2>To Build<a class="headerlink" href="#to-build" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./autogen.sh
+./configure
+make
+make install <span class="c1"># optional</span>
+</pre></div>
+</div>
+<p>This will build qogecoin-qt as well if the dependencies are met.</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>These dependencies are required:</p>
+<table class="table">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 22%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Library</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">libssl</span></code></p></td>
+<td><p>Crypto</p></td>
+<td><p>Random Number Generation, Elliptic Curve
+Cryptography</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">libboost</span></code></p></td>
+<td><p>Utility</p></td>
+<td><p>Library for threading, data structures, etc</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">libevent</span></code></p></td>
+<td><p>Networking</p></td>
+<td><p>OS independent asynchronous networking</p></td>
+</tr>
+</tbody>
+</table>
+<p>Optional dependencies:</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 24%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Library</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">miniupnpc</span></code></p></td>
+<td><p>UPnP Support</p></td>
+<td><p>Firewall-jumping support</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">libdb4.8</span></code></p></td>
+<td><p>Berkeley DB</p></td>
+<td><p>Wallet storage (only needed when wallet
+enabled)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">qt</span></code></p></td>
+<td><p>GUI</p></td>
+<td><p>GUI toolkit (only needed when GUI enabled)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">protobuf</span></code></p></td>
+<td><p>Payments in GUI</p></td>
+<td><p>Data interchange format used for payment
+protocol (only needed when GUI enabled)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">libqrencode</span></code></p></td>
+<td><p>QR codes in GUI</p></td>
+<td><p>Optional for generating QR codes (only
+needed when GUI enabled)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">univalue</span></code></p></td>
+<td><p>Utility</p></td>
+<td><p>JSON parsing and encoding (bundled version
+will be used unless –with-system-univalue
+passed to configure)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">libzmq3</span></code></p></td>
+<td><p>ZMQ notification</p></td>
+<td><p>Optional, allows generating ZMQ
+notifications (requires ZMQ version
+&gt;= 4.x)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="memory-requirements">
+<h2>Memory Requirements<a class="headerlink" href="#memory-requirements" title="Permalink to this headline">¶</a></h2>
+<p>C++ compilers are memory-hungry. It is recommended to have at least 1.5 GB of
+memory available when compiling Qogecoin Core. On systems with less, gcc can be
+tuned to conserve memory with additional CXXFLAGS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure <span class="se">\</span>
+     <span class="nv">CXXFLAGS</span><span class="o">=</span><span class="s2">&quot;--param ggc-min-expand=1 --param ggc-min-heapsize=32768&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dependency-build-instructions-ubuntu-debian">
+<h2>Dependency Build Instructions: Ubuntu &amp; Debian<a class="headerlink" href="#dependency-build-instructions-ubuntu-debian" title="Permalink to this headline">¶</a></h2>
+<p>Build requirements:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install <span class="se">\</span>
+     build-essential <span class="se">\</span>
+     libtool <span class="se">\</span>
+     autotools-dev <span class="se">\</span>
+     automake <span class="se">\</span>
+     pkg-config <span class="se">\</span>
+     libssl-dev <span class="se">\</span>
+     libevent-dev <span class="se">\</span>
+     bsdmainutils
+</pre></div>
+</div>
+<p>Options when installing required Boost library files:</p>
+<ol class="arabic simple">
+<li><p>On at least Ubuntu 14.04+ and Debian 7+ there are generic names for the
+individual boost development packages, so the following can be used to only
+install necessary parts of boost:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install <span class="se">\</span>
+     libboost-system-dev <span class="se">\</span>
+     libboost-filesystem-dev <span class="se">\</span>
+     libboost-chrono-dev <span class="se">\</span>
+     libboost-program-options-dev <span class="se">\</span>
+     libboost-test-dev <span class="se">\</span>
+     libboost-thread-dev
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>If that doesn’t work, you can install all boost development packages with:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libboost-all-dev
+</pre></div>
+</div>
+<p>BerkeleyDB is required for the wallet.</p>
+<p><strong>For Ubuntu only:</strong> <code class="docutils literal notranslate"><span class="pre">db4.8</span></code> packages are available at
+<a class="reference external" href="https://launchpad.net/~bitcoin/+archive/bitcoin">launchpad</a>.</p>
+<p>You can add the repository and install using the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:bitcoin/bitcoin
+sudo apt-get update
+sudo apt-get install libdb4.8-dev libdb4.8++-dev
+</pre></div>
+</div>
+<p>Ubuntu and Debian have their own <code class="docutils literal notranslate"><span class="pre">libdb-dev</span></code> and <code class="docutils literal notranslate"><span class="pre">libdb++-dev</span></code> packages, but
+these will install BerkeleyDB 5.1 or later, which break binary wallet
+compatibility with the distributed executables which are based on BerkeleyDB
+4.8. If you do not care about wallet compatibility, pass
+<code class="docutils literal notranslate"><span class="pre">--with-incompatible-bdb</span></code> to configure.</p>
+<p>See the section “Disable-wallet mode” to build Qogecoin Core without wallet.</p>
+<p>Optional (see <code class="docutils literal notranslate"><span class="pre">--with-miniupnpc</span></code> and <code class="docutils literal notranslate"><span class="pre">--enable-upnp-default</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libminiupnpc-dev
+</pre></div>
+</div>
+<p>ZMQ dependencies (provides ZMQ API 4.x):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libzmq3-dev
+</pre></div>
+</div>
+</div>
+<div class="section" id="dependencies-for-the-gui-ubuntu-debian">
+<h2>Dependencies for the GUI: Ubuntu &amp; Debian<a class="headerlink" href="#dependencies-for-the-gui-ubuntu-debian" title="Permalink to this headline">¶</a></h2>
+<p>If you want to build Qogecoin-Qt, make sure that the required packages for Qt
+development are installed. Either Qt 5 or Qt 4 are necessary to build the GUI.
+If both Qt 4 and Qt 5 are installed, Qt 5 will be used. Pass <code class="docutils literal notranslate"><span class="pre">--with-gui=qt4</span></code>
+to configure to choose Qt4. To build without GUI pass <code class="docutils literal notranslate"><span class="pre">--without-gui</span></code>.</p>
+<p>To build with Qt 5 (recommended) you need the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install <span class="se">\</span>
+     libqt5gui5 <span class="se">\</span>
+     libqt5core5a <span class="se">\</span>
+     libqt5dbus5 <span class="se">\</span>
+     qttools5-dev <span class="se">\</span>
+     qttools5-dev-tools <span class="se">\</span>
+     libprotobuf-dev <span class="se">\</span>
+     protobuf-compiler
+</pre></div>
+</div>
+<p>Alternatively, to build with Qt 4 you need the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libqt4-dev libprotobuf-dev protobuf-compiler
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">libqrencode</span></code> (optional) can be installed with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libqrencode-dev
+</pre></div>
+</div>
+<p>Once these are installed, they will be found by configure and a <code class="docutils literal notranslate"><span class="pre">qogecoin-qt</span></code>
+executable will be built by default.</p>
+</div>
+<div class="section" id="dependency-build-instructions-fedora">
+<h2>Dependency Build Instructions: Fedora<a class="headerlink" href="#dependency-build-instructions-fedora" title="Permalink to this headline">¶</a></h2>
+<p>Build requirements:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo dnf install <span class="se">\</span>
+     gcc-c++ <span class="se">\</span>
+     libtool <span class="se">\</span>
+     make <span class="se">\</span>
+     autoconf <span class="se">\</span>
+     automake <span class="se">\</span>
+     openssl-devel <span class="se">\</span>
+     libevent-devel <span class="se">\</span>
+     boost-devel <span class="se">\</span>
+     libdb4-devel <span class="se">\</span>
+     libdb4-cxx-devel
+</pre></div>
+</div>
+<p>Optional:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo dnf install miniupnpc-devel
+</pre></div>
+</div>
+<p>To build with Qt 5 (recommended) you need the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo dnf install qt5-qttools-devel qt5-qtbase-devel protobuf-devel
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">libqrencode</span></code> (optional) can be installed with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo dnf install qrencode-devel
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The release is built with GCC and then <code class="docutils literal notranslate"><span class="pre">strip</span> <span class="pre">qogecoind</span></code> to strip the debug
+symbols, which reduces the executable size by about 90%.</p>
+</div>
+</div>
+<div class="section" id="miniupnpc">
+<h2>miniupnpc<a class="headerlink" href="#miniupnpc" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://miniupnp.free.fr/">miniupnpc</a> may be used for UPnP port mapping. It
+can be downloaded from <a class="reference external" href="http://miniupnp.tuxfamily.org/files/">here</a>.
+UPnP support is compiled in and turned off by default.
+See the configure options for upnp behavior desired:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--without-miniupnpc</span></code>: No UPnP support miniupnp not required</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--disable-upnp-default</span></code> (the default) UPnP support turned off by default at
+runtime</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--enable-upnp-default</span></code> UPnP support turned on by default at runtime</p></li>
+</ul>
+</div>
+<div class="section" id="berkeley-db">
+<h2>Berkeley DB<a class="headerlink" href="#berkeley-db" title="Permalink to this headline">¶</a></h2>
+<p>It is recommended to use Berkeley DB 4.8. If you have to build it yourself:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">QOGECOIN_ROOT</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
+
+<span class="c1"># Pick some path to install BDB to,</span>
+<span class="c1"># here we create a directory within the qogecoin directory</span>
+<span class="nv">BDB_PREFIX</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">QOGECOIN_ROOT</span><span class="si">}</span><span class="s2">/db4&quot;</span>
+mkdir -p <span class="nv">$BDB_PREFIX</span>
+
+<span class="c1"># Fetch the source and verify that it is not tampered with</span>
+wget <span class="s1">&#39;http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz&#39;</span>
+<span class="nb">echo</span> <span class="s1">&#39;12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4.8.30.NC.tar.gz&#39;</span> <span class="p">|</span> sha256sum -c
+<span class="c1"># -&gt; db-4.8.30.NC.tar.gz: OK</span>
+tar -xzvf db-4.8.30.NC.tar.gz
+
+<span class="c1"># Build the library and install to our prefix</span>
+<span class="nb">cd</span> db-4.8.30.NC/build_unix/
+
+<span class="c1"># Do a static build so that it can be embedded into the executable,</span>
+<span class="c1"># instead of having to find a .so at runtime</span>
+../dist/configure <span class="se">\</span>
+   --enable-cxx <span class="se">\</span>
+   --disable-shared <span class="se">\</span>
+   --with-pic <span class="se">\</span>
+   --prefix<span class="o">=</span><span class="nv">$BDB_PREFIX</span>
+make install
+
+<span class="c1"># Configure Qogecoin Core to use our own-built instance of BDB</span>
+<span class="nb">cd</span> <span class="nv">$QOGECOIN_ROOT</span>
+./autogen.sh
+./configure <span class="se">\</span>
+   <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L</span><span class="si">${</span><span class="nv">BDB_PREFIX</span><span class="si">}</span><span class="s2">/lib/&quot;</span> <span class="se">\</span>
+   <span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">&quot;-I</span><span class="si">${</span><span class="nv">BDB_PREFIX</span><span class="si">}</span><span class="s2">/include/&quot;</span>  <span class="c1"># (other args...)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You only need Berkeley DB if the wallet is enabled (see the section
+<a class="reference internal" href="#disable-wallet"><span class="std std-ref">disable-wallet</span></a> mode below).</p>
+</div>
+</div>
+<div class="section" id="security">
+<h2>Security<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h2>
+<p>To help make your qogecoin installation more secure by making certain attacks
+impossible to exploit even if a vulnerability is found, binaries are hardened by
+default. This can be disabled with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --enable-hardening
+./configure --disable-hardening
+</pre></div>
+</div>
+<p>Hardening enables the following features:</p>
+<ul>
+<li><p><strong>Position Independent Executable</strong></p>
+<blockquote>
+<div><p>Build position independent code to take advantage of Address Space Layout
+Randomization offered by some kernels. Attackers who can cause execution of
+code at an arbitrary memory location are thwarted if they don’t know where
+anything useful is located. The stack and heap are randomly located by
+default but this allows the code section to be randomly located as well.</p>
+<p>On an AMD64 processor where a library was not compiled with <code class="docutils literal notranslate"><span class="pre">-fPIC</span></code>, this
+will cause an error such as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>relocation R_X86_64_32 against `......&#39; can not be used when making a shared object;
+</pre></div>
+</div>
+<p>To test that you have built PIE executable, install <code class="docutils literal notranslate"><span class="pre">scanelf</span></code>, part of
+<code class="docutils literal notranslate"><span class="pre">paxutils</span></code>, and use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scanelf -e ./qogecoin
+</pre></div>
+</div>
+<p>The output should contain:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>TYPE
+ET_DYN
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Non-executable Stack</strong></p>
+<blockquote>
+<div><p>If the stack is executable then trivial stack based buffer overflow exploits
+are possible if vulnerable buffers are found. By default, qogecoin should be
+built with a non-executable stack but if one of the libraries it uses asks
+for an executable stack or someone makes a mistake and uses a compiler
+extension which requires an executable stack, it will silently build an
+executable without the non-executable stack protection.</p>
+<p>To verify that the stack is non-executable after compiling use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scanelf -e ./qogecoin
+</pre></div>
+</div>
+<p>the output should contain:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>STK/REL/PTL
+RW- R-- RW-
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">STK</span> <span class="pre">RW-</span></code> means that the stack is readable and writeable but not
+executable.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="disable-wallet-mode">
+<span id="disable-wallet"></span><h2>Disable-wallet mode<a class="headerlink" href="#disable-wallet-mode" title="Permalink to this headline">¶</a></h2>
+<p>When the intention is to run only a P2P node without a wallet, qogecoin may be
+compiled in disable-wallet mode with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --disable-wallet
+</pre></div>
+</div>
+<p>In this case there is no dependency on Berkeley DB 4.8.</p>
+<p>Mining is also possible in disable-wallet mode, but only using the
+<code class="docutils literal notranslate"><span class="pre">getblocktemplate</span></code> RPC call instead of <code class="docutils literal notranslate"><span class="pre">getwork</span></code>.</p>
+</div>
+<div class="section" id="additional-configure-flags">
+<h2>Additional Configure Flags<a class="headerlink" href="#additional-configure-flags" title="Permalink to this headline">¶</a></h2>
+<p>A list of additional configure flags can be displayed with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure --help
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup-and-build-example-arch-linux">
+<h2>Setup and Build Example: Arch Linux<a class="headerlink" href="#setup-and-build-example-arch-linux" title="Permalink to this headline">¶</a></h2>
+<p>This example lists the steps necessary to setup and build a command line only,
+non-wallet distribution of the latest changes on Arch Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pacman -S git base-devel boost libevent python
+git clone https://github.com/qogecoin-project/qogecoin.git
+<span class="nb">cd</span> qogecoin/
+./autogen.sh
+./configure --disable-wallet --without-gui --without-miniupnpc
+make check
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Enabling wallet support requires either compiling against a Berkeley DB newer
+than 4.8 (package <code class="docutils literal notranslate"><span class="pre">db</span></code>) using <code class="docutils literal notranslate"><span class="pre">--with-incompatible-bdb</span></code>, or building and
+depending on a local version of Berkeley DB 4.8. The readily available Arch
+Linux packages are currently built using <code class="docutils literal notranslate"><span class="pre">--with-incompatible-bdb</span></code>
+according to the <a class="reference external" href="https://projects.archlinux.org/svntogit/community.git/tree/bitcoin/trunk/PKGBUILD">Arch Wiki</a>.
+As mentioned above, when maintaining portability of the wallet between the
+standard Qogecoin Core distributions and independently built node software is
+desired, Berkeley DB 4.8 must be used.</p>
+</div>
+</div>
+<div class="section" id="arm-cross-compilation">
+<h2>ARM Cross-compilation<a class="headerlink" href="#arm-cross-compilation" title="Permalink to this headline">¶</a></h2>
+<p>These steps can be performed on, for example, an Ubuntu VM. The depends system
+will also work on other Linux distributions, however the commands for installing
+the toolchain will be different.</p>
+<p>Make sure you install the build requirements mentioned above.
+Then, install the toolchain and curl:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install g++-arm-linux-gnueabihf curl
+</pre></div>
+</div>
+<p>To build executables for ARM:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> depends
+make <span class="nv">HOST</span><span class="o">=</span>arm-linux-gnueabihf <span class="nv">NO_QT</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">cd</span> ..
+./configure <span class="se">\</span>
+   --prefix<span class="o">=</span><span class="nv">$PWD</span>/depends/arm-linux-gnueabihf <span class="se">\</span>
+   --enable-glibc-back-compat <span class="se">\</span>
+   --enable-reduce-exports <span class="se">\</span>
+   <span class="nv">LDFLAGS</span><span class="o">=</span>-static-libstdc++
+make
+</pre></div>
+</div>
+<p>For further documentation on the depends system see <code class="docutils literal notranslate"><span class="pre">../depends/README.rst</span></code>
+in the depends directory.</p>
+</div>
+</div>
+
+
+              </div>
+
+
+
+
+
+
+<div class='prev-next-bottom'>
+
+    <div id="prev">
+        <a class="left-prev" href="index.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Qogecoin Core 0.14.2</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="build-windows.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Building on Windows</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By The Qogecoin authors<br/>
+
+            &copy; Copyright 2021, The Qogecoin authors.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+
+  </body>
+</html>

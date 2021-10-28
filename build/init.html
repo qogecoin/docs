@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample init scripts and service configuration for qogecoind &#8212; Qogecoin docs</title>
+
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Block and Transaction Broadcasting with ZeroMQ" href="zmq.html" />
+    <link rel="prev" title="Tor Support" href="tor.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">Qogecoin docs</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-unix.html">
+   Building on Linux
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-windows.html">
+   Building on Windows
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="REST-interface.html">
+   Unauthenticated REST Interface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dnsseed-policy.html">
+   Expectations for DNS Seed operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="benchmarking.html">
+   Benchmarking
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="files.html">
+   Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fuzzing.html">
+   Fuzz-testing Qogecoin Core
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="reduce-traffic.html">
+   Reduce Traffic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tor.html">
+   Tor Support
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Sample init scripts and service configuration for qogecoind
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="zmq.html">
+   Block and Transaction Broadcasting with ZeroMQ
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/qogecoin/qogecoin"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#service-user">
+   1. Service User
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#configuration">
+   2. Configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#paths">
+   3. Paths
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installing-service-configuration">
+   4. Installing Service Configuration
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="section" id="sample-init-scripts-and-service-configuration-for-qogecoind">
+<h1>Sample init scripts and service configuration for qogecoind<a class="headerlink" href="#sample-init-scripts-and-service-configuration-for-qogecoind" title="Permalink to this headline">¶</a></h1>
+<p>Sample scripts and configuration files for systemd, Upstart and OpenRC
+can be found in the contrib/init folder.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">contrib/init/qogecoind.service</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">systemd</span></code> service unit configuration.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">contrib/init/qogecoind.openrc</span></code></dt><dd><p>OpenRC compatible SysV style init script.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">contrib/init/qogecoind.openrcconf</span></code></dt><dd><p>OpenRC conf.d file.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">contrib/init/qogecoind.conf</span></code></dt><dd><p>Upstart service configuration file.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="service-user">
+<h2>1. Service User<a class="headerlink" href="#service-user" title="Permalink to this headline">¶</a></h2>
+<p>All three Linux startup configurations assume the existence of a <code class="docutils literal notranslate"><span class="pre">qogecoin</span></code>
+user and group.  They must be created before attempting to use these scripts.</p>
+</div>
+<div class="section" id="configuration">
+<h2>2. Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>At a bare minimum, <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> requires that the rpcpassword setting be set
+when running as a daemon.  If the configuration file does not exist or this
+setting is not set, <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> will shutdown promptly after startup.</p>
+<p>This password does not have to be remembered or typed as it is mostly used
+as a fixed token that <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> and client programs read from the
+configuration file, however it is recommended that a strong and secure password
+be used as this password is security critical to securing the wallet should the
+wallet be enabled.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> is run with the <code class="docutils literal notranslate"><span class="pre">-server</span></code> flag (set by default), and no
+<code class="docutils literal notranslate"><span class="pre">rpcpassword</span></code> is set, it will use a special cookie file for authentication.
+The cookie is generated with random content when the daemon starts, and deleted
+when it exits. Read access to this file controls who can access it through RPC.</p>
+<p>By default the cookie is stored in the data directory, but it’s location can be
+overridden with the option <code class="docutils literal notranslate"><span class="pre">-rpccookiefile</span></code>.</p>
+<p>This allows for running <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> without any custom configurations.</p>
+<p><code class="docutils literal notranslate"><span class="pre">conf</span></code>, <code class="docutils literal notranslate"><span class="pre">pid</span></code>, and <code class="docutils literal notranslate"><span class="pre">wallet</span></code> accept relative paths which are interpreted
+as relative to the data directory. <code class="docutils literal notranslate"><span class="pre">wallet</span></code> only supports relative paths.</p>
+<p>For an example configuration file that describes the configuration settings,
+see <code class="docutils literal notranslate"><span class="pre">contrib/debian/examples/qogecoin.conf</span></code>.</p>
+</div>
+<div class="section" id="paths">
+<h2>3. Paths<a class="headerlink" href="#paths" title="Permalink to this headline">¶</a></h2>
+<p>All three configurations assume several paths that might need to be adjusted.</p>
+<p>Binary:              <code class="docutils literal notranslate"><span class="pre">/usr/bin/qogecoind</span></code>
+Configuration file:  <code class="docutils literal notranslate"><span class="pre">/etc/qogecoin/qogecoin.conf</span></code>
+Data directory:      <code class="docutils literal notranslate"><span class="pre">/var/lib/qogecoind</span></code>
+PID file (OpenRC):   <code class="docutils literal notranslate"><span class="pre">/var/run/qogecoind/qogecoind.pid</span></code>
+PID file (systemc):  <code class="docutils literal notranslate"><span class="pre">/var/lib/qogecoind/qogecoind.pid</span></code></p>
+<p>The configuration file, PID directory (if applicable) and data directory
+should all be owned by the <code class="docutils literal notranslate"><span class="pre">qogecoin</span></code> user and group.  It is advised for
+security reasons to make the configuration file and data directory only readable
+by the <code class="docutils literal notranslate"><span class="pre">qogecoin</span></code> user and group.  Access to <code class="docutils literal notranslate"><span class="pre">qogecoin-cli</span></code> and other
+<code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> rpc clients can then be controlled by group membership.</p>
+</div>
+<div class="section" id="installing-service-configuration">
+<h2>4. Installing Service Configuration<a class="headerlink" href="#installing-service-configuration" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">systemd</span></code></dt><dd><p>Installing this .service file consists of just copying it to
+<code class="docutils literal notranslate"><span class="pre">/usr/lib/systemd/system</span></code> directory, followed by the command
+<code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code> in order to update running systemd configuration.</p>
+<p>To test, run <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">qogecoind</span></code> and to enable for system startup
+run <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">qogecoind</span></code>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">OpenRC</span></code></dt><dd><p>Rename qogecoind.openrc to qogecoind and drop it in <code class="docutils literal notranslate"><span class="pre">/etc/init.d</span></code>.  Double
+check ownership and permissions and make it executable.  Test it with
+<code class="docutils literal notranslate"><span class="pre">/etc/init.d/qogecoind</span> <span class="pre">start</span></code> and configure it to run on startup with
+<code class="docutils literal notranslate"><span class="pre">rc-update</span> <span class="pre">add</span> <span class="pre">qogecoind</span></code></p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+
+
+
+
+
+
+<div class='prev-next-bottom'>
+
+    <div id="prev">
+        <a class="left-prev" href="tor.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Tor Support</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="zmq.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Block and Transaction Broadcasting with ZeroMQ</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By The Qogecoin authors<br/>
+
+            &copy; Copyright 2021, The Qogecoin authors.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+
+  </body>
+</html>

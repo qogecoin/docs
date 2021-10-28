@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fuzz-testing Qogecoin Core &#8212; Qogecoin docs</title>
+
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reduce Traffic" href="reduce-traffic.html" />
+    <link rel="prev" title="Files" href="files.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">Qogecoin docs</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-unix.html">
+   Building on Linux
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-windows.html">
+   Building on Windows
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="REST-interface.html">
+   Unauthenticated REST Interface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dnsseed-policy.html">
+   Expectations for DNS Seed operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="benchmarking.html">
+   Benchmarking
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="files.html">
+   Files
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Fuzz-testing Qogecoin Core
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="reduce-traffic.html">
+   Reduce Traffic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tor.html">
+   Tor Support
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="init.html">
+   Sample init scripts and service configuration for qogecoind
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="zmq.html">
+   Block and Transaction Broadcasting with ZeroMQ
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/qogecoin/qogecoin"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-afl">
+   Building AFL
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#instrumentation">
+   Instrumentation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-fuzzing">
+   Preparing fuzzing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fuzzing">
+   Fuzzing
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="section" id="fuzz-testing-qogecoin-core">
+<h1>Fuzz-testing Qogecoin Core<a class="headerlink" href="#fuzz-testing-qogecoin-core" title="Permalink to this headline">¶</a></h1>
+<p>A special test harness <code class="docutils literal notranslate"><span class="pre">test_qogecoin_fuzzy</span></code> is provided to provide an easy
+entry point for fuzzers and the like. In this document we’ll describe how to
+use it with AFL.</p>
+<div class="section" id="building-afl">
+<h2>Building AFL<a class="headerlink" href="#building-afl" title="Permalink to this headline">¶</a></h2>
+<p>It is recommended to always use the latest version of afl:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz
+tar -zxvf afl-latest.tgz
+<span class="nb">cd</span> afl-&lt;version&gt;
+make
+<span class="nb">export</span> <span class="nv">AFLPATH</span><span class="o">=</span><span class="nv">$PWD</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="instrumentation">
+<h2>Instrumentation<a class="headerlink" href="#instrumentation" title="Permalink to this headline">¶</a></h2>
+<p>To build Qogecoin Core using AFL instrumentation (this assumes that the
+<code class="docutils literal notranslate"><span class="pre">AFLPATH</span></code> was set as above):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./configure
+   --disable-ccache <span class="se">\</span>
+   --disable-shared <span class="se">\</span>
+   --enable-tests <span class="se">\</span>
+   <span class="nv">CC</span><span class="o">=</span><span class="si">${</span><span class="nv">AFLPATH</span><span class="si">}</span>/afl-gcc <span class="se">\</span>
+   <span class="nv">CXX</span><span class="o">=</span><span class="si">${</span><span class="nv">AFLPATH</span><span class="si">}</span>/afl-g++
+<span class="nb">export</span> <span class="nv">AFL_HARDEN</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">cd</span> src/
+make test/test_qogecoin_fuzzy
+</pre></div>
+</div>
+<p>We disable <code class="docutils literal notranslate"><span class="pre">ccache</span></code> because we don’t want to pollute the ccache with
+instrumented objects, and similarly don’t want to use non-instrumented cached
+objects linked in.</p>
+</div>
+<div class="section" id="preparing-fuzzing">
+<h2>Preparing fuzzing<a class="headerlink" href="#preparing-fuzzing" title="Permalink to this headline">¶</a></h2>
+<p>AFL needs an input directory with examples, and an output directory where it
+will place examples that it found. These can be anywhere in the file system,
+we’ll define environment variables to make it easy to reference them.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir inputs
+<span class="nv">AFLIN</span><span class="o">=</span><span class="nv">$PWD</span>/inputs
+mkdir outputs
+<span class="nv">AFLOUT</span><span class="o">=</span><span class="nv">$PWD</span>/outputs
+</pre></div>
+</div>
+<p>Example inputs are available from:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://download.visucore.com/bitcoin/bitcoin_fuzzy_in.tar.xz">https://download.visucore.com/bitcoin/bitcoin_fuzzy_in.tar.xz</a></p></li>
+<li><p><a class="reference external" href="http://strateman.ninja/fuzzing.tar.xz">http://strateman.ninja/fuzzing.tar.xz</a></p></li>
+</ul>
+<p>Extract these (or other starting inputs) into the <code class="docutils literal notranslate"><span class="pre">inputs</span></code> directory before
+starting fuzzing.</p>
+</div>
+<div class="section" id="fuzzing">
+<h2>Fuzzing<a class="headerlink" href="#fuzzing" title="Permalink to this headline">¶</a></h2>
+<p>To start the actual fuzzing use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$AFLPATH</span>/afl-fuzz <span class="se">\</span>
+   -i <span class="si">${</span><span class="nv">AFLIN</span><span class="si">}</span> <span class="se">\</span>
+   - o <span class="si">${</span><span class="nv">AFLOUT</span><span class="si">}</span> <span class="se">\</span>
+   -m52 <span class="se">\</span>
+   -- test/test_qogecoin_fuzzy
+</pre></div>
+</div>
+<p>You may have to change a few kernel parameters to test optimally. <code class="docutils literal notranslate"><span class="pre">afl-fuzz</span></code>
+will print an error and suggestion if so.</p>
+</div>
+</div>
+
+
+              </div>
+
+
+
+
+
+
+<div class='prev-next-bottom'>
+
+    <div id="prev">
+        <a class="left-prev" href="files.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Files</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="reduce-traffic.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Reduce Traffic</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By The Qogecoin authors<br/>
+
+            &copy; Copyright 2021, The Qogecoin authors.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+
+  </body>
+</html>

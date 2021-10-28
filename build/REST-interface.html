@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unauthenticated REST Interface &#8212; Qogecoin docs</title>
+
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Expectations for DNS Seed operators" href="dnsseed-policy.html" />
+    <link rel="prev" title="Building on Windows" href="build-windows.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">Qogecoin docs</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-unix.html">
+   Building on Linux
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-windows.html">
+   Building on Windows
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Unauthenticated REST Interface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dnsseed-policy.html">
+   Expectations for DNS Seed operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="benchmarking.html">
+   Benchmarking
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="files.html">
+   Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fuzzing.html">
+   Fuzz-testing Qogecoin Core
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="reduce-traffic.html">
+   Reduce Traffic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tor.html">
+   Tor Support
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="init.html">
+   Sample init scripts and service configuration for qogecoind
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="zmq.html">
+   Block and Transaction Broadcasting with ZeroMQ
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/qogecoin/qogecoin"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transactions">
+   Transactions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#blocks">
+   Blocks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#blockheaders">
+   Blockheaders
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chaininfos">
+   Chaininfos
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#query-utxo-set">
+   Query UTXO set
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#memory-pool">
+   Memory pool
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="section" id="unauthenticated-rest-interface">
+<h1>Unauthenticated REST Interface<a class="headerlink" href="#unauthenticated-rest-interface" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Running a web browser on the same node with a REST enabled <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> can
+be a risk. Accessing prepared XSS websites could read out tx/block data of
+your node by placing links like
+<code class="docutils literal notranslate"><span class="pre">&lt;script</span> <span class="pre">src=&quot;http://127.0.0.1:9332/rest/tx/1234567890.json&quot;&gt;</span></code> which might
+break the nodes privacy.</p>
+</div>
+<p>The REST API can be enabled with the <code class="docutils literal notranslate"><span class="pre">-rest</span></code> option.</p>
+<p>The interface runs on the same port as the JSON-RPC interface, by default port
+<code class="docutils literal notranslate"><span class="pre">8332</span></code> for mainnet and port <code class="docutils literal notranslate"><span class="pre">18332</span></code> for testnet.</p>
+<div class="section" id="transactions">
+<h2>Transactions<a class="headerlink" href="#transactions" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /rest/tx/&lt;TX-HASH&gt;.&lt;bin<span class="p">|</span>hex<span class="p">|</span>json&gt;
+</pre></div>
+</div>
+<p>Given a transaction hash: returns a transaction in binary, hex-encoded binary or
+JSON formats.</p>
+<p>For full TX query capability, one must enable the transaction index via
+<code class="docutils literal notranslate"><span class="pre">txindex=1</span></code> command line/configuration option.</p>
+</div>
+<div class="section" id="blocks">
+<h2>Blocks<a class="headerlink" href="#blocks" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /rest/block/&lt;BLOCK-HASH&gt;.&lt;bin<span class="p">|</span>hex<span class="p">|</span>json&gt;
+GET /rest/block/notxdetails/&lt;BLOCK-HASH&gt;.&lt;bin<span class="p">|</span>hex<span class="p">|</span>json&gt;
+</pre></div>
+</div>
+<p>Given a block hash: returns a block, in binary, hex-encoded binary or JSON
+formats.</p>
+<p>The HTTP request and response are both handled entirely in-memory, thus making
+maximum memory usage at least 2.66MB (1 MB max block, plus hex encoding) per
+request.</p>
+<p>With the <code class="docutils literal notranslate"><span class="pre">notxdetails</span></code> option JSON response will only contain the transaction
+hash instead of the complete transaction details. The option only affects the
+JSON response.</p>
+</div>
+<div class="section" id="blockheaders">
+<h2>Blockheaders<a class="headerlink" href="#blockheaders" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /rest/headers/&lt;COUNT&gt;/&lt;BLOCK-HASH&gt;.&lt;bin<span class="p">|</span>hex<span class="p">|</span>json&gt;
+</pre></div>
+</div>
+<p>Given a block hash: returns <code class="docutils literal notranslate"><span class="pre">&lt;COUNT&gt;</span></code> amount of blockheaders in upward
+direction.</p>
+</div>
+<div class="section" id="chaininfos">
+<h2>Chaininfos<a class="headerlink" href="#chaininfos" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /rest/chaininfo.json
+</pre></div>
+</div>
+<p>Returns various state info regarding block chain processing.
+Only supports JSON as output format.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">chain</span></code></dt><dd><p>(string) current network name as defined in BIP70 (main, test, regtest)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">blocks</span></code></dt><dd><p>(numeric) the current number of blocks processed in the server</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">headers</span></code></dt><dd><p>(numeric) the current number of headers we have validated</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">bestblockhash</span></code></dt><dd><p>(string) the hash of the currently best block</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">difficulty</span></code></dt><dd><p>(numeric) the current difficulty</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">verificationprogress</span></code></dt><dd><p>(numeric) estimate of verification progress [0..1]</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">chainwork</span></code></dt><dd><p>(string) total amount of work in active chain, in hexadecimal</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">pruned</span></code></dt><dd><p>(boolean) if the blocks are subject to pruning</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">pruneheight</span></code></dt><dd><p>(numeric) heighest block available</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">softforks</span></code></dt><dd><p>(array) status of softforks in progress</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="query-utxo-set">
+<h2>Query UTXO set<a class="headerlink" href="#query-utxo-set" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /rest/getutxos/&lt;checkmempool&gt;/&lt;txid&gt;-&lt;n&gt;/&lt;txid&gt;-&lt;n&gt;/.../&lt;txid&gt;-&lt;n&gt;.&lt;bin<span class="p">|</span>hex<span class="p">|</span>json&gt;
+</pre></div>
+</div>
+<p>The getutxo command allows querying of the UTXO set given a set of outpoints.
+See <a class="reference external" href="https://github.com/bitcoin/bips/blob/master/bip-0064.mediawiki">BIP64</a>
+for input and output serialisation, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ curl localhost:19332/rest/getutxos/checkmempool/b2cdfd7b89def827ff8af7cd9bff7627ff72e5e8b0f71210f92ea7a4000c5d75-0.json <span class="m">2</span>&gt;/dev/null <span class="p">|</span> json_pp
+<span class="o">{</span>
+   <span class="s2">&quot;chaintipHash&quot;</span> : <span class="s2">&quot;00000000fb01a7f3745a717f8caebee056c484e6e0bfe4a9591c235bb70506fb&quot;</span>,
+   <span class="s2">&quot;chainHeight&quot;</span> : <span class="m">325347</span>,
+   <span class="s2">&quot;utxos&quot;</span> : <span class="o">[</span>
+      <span class="o">{</span>
+         <span class="s2">&quot;scriptPubKey&quot;</span> : <span class="o">{</span>
+            <span class="s2">&quot;addresses&quot;</span> : <span class="o">[</span>
+               <span class="s2">&quot;mi7as51dvLJsizWnTMurtRmrP8hG2m1XvD&quot;</span>
+            <span class="o">]</span>,
+            <span class="s2">&quot;type&quot;</span> : <span class="s2">&quot;pubkeyhash&quot;</span>,
+            <span class="s2">&quot;hex&quot;</span> : <span class="s2">&quot;76a9141c7cebb529b86a04c683dfa87be49de35bcf589e88ac&quot;</span>,
+            <span class="s2">&quot;reqSigs&quot;</span> : <span class="m">1</span>,
+            <span class="s2">&quot;asm&quot;</span> : <span class="s2">&quot;OP_DUP OP_HASH160 1c7cebb529b86a04c683dfa87be49de35bcf589e OP_EQUALVERIFY OP_CHECKSIG&quot;</span>
+         <span class="o">}</span>,
+         <span class="s2">&quot;value&quot;</span> : <span class="m">8</span>.8687,
+         <span class="s2">&quot;height&quot;</span> : <span class="m">2147483647</span>,
+         <span class="s2">&quot;txvers&quot;</span> : <span class="m">1</span>
+      <span class="o">}</span>
+   <span class="o">]</span>,
+   <span class="s2">&quot;bitmap&quot;</span> : <span class="s2">&quot;1&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="memory-pool">
+<h2>Memory pool<a class="headerlink" href="#memory-pool" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /rest/mempool/info.json
+</pre></div>
+</div>
+<p>Returns various information about the TX mempool.
+Only supports JSON as output format.
+* size : (numeric) the number of transactions in the TX mempool
+* bytes : (numeric) size of the TX mempool in bytes
+* usage : (numeric) total TX mempool memory usage</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /rest/mempool/contents.json
+</pre></div>
+</div>
+<p>Returns transactions in the TX mempool.
+Only supports JSON as output format.</p>
+</div>
+</div>
+
+
+              </div>
+
+
+
+
+
+
+<div class='prev-next-bottom'>
+
+    <div id="prev">
+        <a class="left-prev" href="build-windows.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Building on Windows</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="dnsseed-policy.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Expectations for DNS Seed operators</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By The Qogecoin authors<br/>
+
+            &copy; Copyright 2021, The Qogecoin authors.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,13 @@
+# Copyright 2021 the Qogecoin authors. All rights reserved.
+
+"""Top level build file."""
+
+load(
+    "@rules_python//python/pip_install:requirements.bzl",
+    "compile_pip_requirements",
+)
+
+compile_pip_requirements(
+    name = "requirements",
+    extra_args = ["--allow-unsafe"],
+)

@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reduce Traffic &#8212; Qogecoin docs</title>
+
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tor Support" href="tor.html" />
+    <link rel="prev" title="Fuzz-testing Qogecoin Core" href="fuzzing.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">Qogecoin docs</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-unix.html">
+   Building on Linux
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-windows.html">
+   Building on Windows
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="REST-interface.html">
+   Unauthenticated REST Interface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dnsseed-policy.html">
+   Expectations for DNS Seed operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="benchmarking.html">
+   Benchmarking
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="files.html">
+   Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fuzzing.html">
+   Fuzz-testing Qogecoin Core
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Reduce Traffic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tor.html">
+   Tor Support
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="init.html">
+   Sample init scripts and service configuration for qogecoind
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="zmq.html">
+   Block and Transaction Broadcasting with ZeroMQ
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/qogecoin/qogecoin"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#limit-the-maximum-upload-target">
+   Limit the maximum upload target
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#disable-listening">
+   Disable listening
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reduce-maximum-connections">
+   Reduce maximum connections
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="section" id="reduce-traffic">
+<h1>Reduce Traffic<a class="headerlink" href="#reduce-traffic" title="Permalink to this headline">¶</a></h1>
+<p>Some node operators need to deal with bandwidth caps imposed by their ISPs.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> allows up to 125 connections to different peers, 8 of
+which are outbound. You can therefore, have at most 117 inbound connections.</p>
+<p>The default settings can result in relatively significant traffic consumption.</p>
+<div class="section" id="limit-the-maximum-upload-target">
+<h2>Limit the maximum upload target<a class="headerlink" href="#limit-the-maximum-upload-target" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">-maxuploadtarget=&lt;MiB</span> <span class="pre">per</span> <span class="pre">day&gt;</span></code></p>
+<p>A major component of the traffic is caused by serving historic blocks to other
+nodes during the initial blocks download phase (syncing up a new node).
+This option can be specified in MiB per day and is turned off by default.
+This is <em>not</em> a hard limit; only a threshold to minimize the outbound
+traffic. When the limit is about to be reached, the uploaded data is cut by no
+longer serving historic blocks (blocks older than one week).
+Keep in mind that new nodes require other nodes that are willing to serve
+historic blocks.</p>
+<p>Whitelisted peers will never be disconnected, although their traffic counts for
+calculating the target.</p>
+</div>
+<div class="section" id="disable-listening">
+<h2>Disable listening<a class="headerlink" href="#disable-listening" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">-listen=0</span></code></p>
+<p>Disabling listening will result in fewer nodes connected (remember the maximum
+of 8 outbound peers). Fewer nodes will result in less traffic usage as you are
+relaying blocks and transactions to fewer nodes.</p>
+</div>
+<div class="section" id="reduce-maximum-connections">
+<h2>Reduce maximum connections<a class="headerlink" href="#reduce-maximum-connections" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">-maxconnections=&lt;num&gt;</span></code></p>
+<p>Reducing the maximum connected nodes to a minimum could be desirable if traffic
+limits are tiny. Keep in mind that qogecoin’s trustless model works best if you
+are connected to a handful of nodes.</p>
+</div>
+</div>
+
+
+              </div>
+
+
+
+
+
+
+<div class='prev-next-bottom'>
+
+    <div id="prev">
+        <a class="left-prev" href="fuzzing.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Fuzz-testing Qogecoin Core</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="tor.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Tor Support</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By The Qogecoin authors<br/>
+
+            &copy; Copyright 2021, The Qogecoin authors.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tor Support &#8212; Qogecoin docs</title>
+
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sample init scripts and service configuration for qogecoind" href="init.html" />
+    <link rel="prev" title="Reduce Traffic" href="reduce-traffic.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">Qogecoin docs</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-unix.html">
+   Building on Linux
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-windows.html">
+   Building on Windows
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="REST-interface.html">
+   Unauthenticated REST Interface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dnsseed-policy.html">
+   Expectations for DNS Seed operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="benchmarking.html">
+   Benchmarking
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="files.html">
+   Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fuzzing.html">
+   Fuzz-testing Qogecoin Core
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="reduce-traffic.html">
+   Reduce Traffic
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Tor Support
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="init.html">
+   Sample init scripts and service configuration for qogecoind
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="zmq.html">
+   Block and Transaction Broadcasting with ZeroMQ
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/qogecoin/qogecoin"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run-qogecoin-behind-a-tor-proxy">
+   1. Run qogecoin behind a Tor proxy
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run-a-qogecoin-hidden-server">
+   2. Run a qogecoin hidden server
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#automatically-listen-on-tor">
+   3. Automatically listen on Tor
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#privacy-recommendations">
+   4. Privacy recommendations
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="section" id="tor-support">
+<h1>Tor Support<a class="headerlink" href="#tor-support" title="Permalink to this headline">¶</a></h1>
+<p>It is possible to run Qogecoin as a Tor hidden service, and connect to such
+services.</p>
+<p>The following directions assume you have a Tor proxy running on port <code class="docutils literal notranslate"><span class="pre">9050</span></code>.
+Many distributions default to having a <code class="docutils literal notranslate"><span class="pre">SOCKS</span></code> proxy listening on port
+<code class="docutils literal notranslate"><span class="pre">9050</span></code>, but others may not. In particular, the Tor Browser Bundle defaults to
+listening on port <code class="docutils literal notranslate"><span class="pre">9150</span></code>. See the <a class="reference external" href="https://www.torproject.org/docs/faq.html.en#TBBSocksPort">Tor Project FAQ</a>
+for how to properly configure Tor.</p>
+<div class="section" id="run-qogecoin-behind-a-tor-proxy">
+<h2>1. Run qogecoin behind a Tor proxy<a class="headerlink" href="#run-qogecoin-behind-a-tor-proxy" title="Permalink to this headline">¶</a></h2>
+<p>The first step is running Qogecoin behind a Tor proxy. This will already make
+all outgoing connections be anonymized, but more is possible.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-proxy=ip:port</span></code></dt><dd><p>Set the proxy server. If SOCKS5 is selected (default), this proxy server will
+be used to try to reach <code class="docutils literal notranslate"><span class="pre">.onion</span></code> addresses as well.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-onion=ip:port</span></code></dt><dd><p>Set the proxy server to use for tor hidden services. You do not need to set
+this if it’s the same as <code class="docutils literal notranslate"><span class="pre">-proxy</span></code>. You can use <code class="docutils literal notranslate"><span class="pre">-noonion</span></code> to explicitly
+disable access to hidden services.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-listen</span></code></dt><dd><p>When using <code class="docutils literal notranslate"><span class="pre">-proxy</span></code>, listening is disabled by default. If you want to run a
+hidden service (see next section), you’ll need to enable it explicitly.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-connect=X</span></code>, <code class="docutils literal notranslate"><span class="pre">-addnode=X</span></code>, <code class="docutils literal notranslate"><span class="pre">-seednode=X</span></code></dt><dd><p>When behind a Tor proxy, you can specify <code class="docutils literal notranslate"><span class="pre">.onion</span></code> addresses instead of IP
+addresses or hostnames in these parameters. It requires SOCKS5. In Tor mode,
+such addresses can also be exchanged with other P2P nodes.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>In a typical situation, this suffices to run behind a Tor proxy:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./qogecoin -proxy<span class="o">=</span><span class="m">127</span>.0.0.1:9050
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-a-qogecoin-hidden-server">
+<h2>2. Run a qogecoin hidden server<a class="headerlink" href="#run-a-qogecoin-hidden-server" title="Permalink to this headline">¶</a></h2>
+<p>If you configure your Tor system accordingly, it is possible to make your node
+also reachable from the Tor network. Add these lines to your <code class="docutils literal notranslate"><span class="pre">/etc/tor/torrc</span></code>
+(or equivalent config file):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>HiddenServiceDir /var/lib/tor/qogecoin-service/
+HiddenServicePort <span class="m">9333</span> <span class="m">127</span>.0.0.1:9333
+HiddenServicePort <span class="m">19335</span> <span class="m">127</span>.0.0.1:19335
+</pre></div>
+</div>
+<p>The directory can be different of course, but (both) port numbers should be
+equal to your <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code>’s P2P listen port (<code class="docutils literal notranslate"><span class="pre">9333</span></code> by default).</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-externalip=X</span></code></dt><dd><p>You can tell qogecoin about its publicly reachable address using this option,
+and this can be a <code class="docutils literal notranslate"><span class="pre">.onion</span></code> address. Given the above configuration, you can
+find your onion address in <code class="docutils literal notranslate"><span class="pre">/var/lib/tor/qogecoin-service/hostname</span></code>. Onion
+addresses are given preference for your node to advertise itself with, for
+connections coming from unroutable addresses (such as <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>, where
+the Tor proxy typically runs).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-listen</span></code></dt><dd><p>You’ll need to enable listening for incoming connections, as this is off by
+default behind a proxy.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-discover</span></code></dt><dd><p>When -externalip is specified, no attempt is made to discover local IPv4 or
+IPv6 addresses. If you want to run a dual stack, reachable from both Tor and
+IPv4 (or IPv6), you’ll need to either pass your other addresses using
+<code class="docutils literal notranslate"><span class="pre">-externalip</span></code>, or explicitly enable <code class="docutils literal notranslate"><span class="pre">-discover</span></code>. Note that both addresses
+of a dual-stack system may be easily linkable using traffic analysis.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>In a typical situation, where you’re only reachable via Tor, this should
+suffice:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./qogecoind -proxy<span class="o">=</span><span class="m">127</span>.0.0.1:9050 -externalip<span class="o">=</span>57qr3yd1nyntf5k.onion -listen
+</pre></div>
+</div>
+<p>(obviously, replace the Onion address with your own). It should be noted that
+you still listen on all devices and another node could establish a clearnet
+connection, when knowing your address. To mitigate this, additionally bind the
+address of your Tor proxy:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./qogecoind ... -bind<span class="o">=</span><span class="m">127</span>.0.0.1
+</pre></div>
+</div>
+<p>If you don’t care too much about hiding your node, and want to be reachable on
+IPv4 as well, use <code class="docutils literal notranslate"><span class="pre">-discover</span></code> instead:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./qogecoind ... -discover
+</pre></div>
+</div>
+<p>and open port <code class="docutils literal notranslate"><span class="pre">9333</span></code> on your firewall (or use <code class="docutils literal notranslate"><span class="pre">-upnp</span></code>).</p>
+<p>If you only want to use Tor to reach onion addresses, but not use it as a proxy
+for normal IPv4/IPv6 communication, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./qogecoin -onion<span class="o">=</span><span class="m">127</span>.0.0.1:9050 -externalip<span class="o">=</span>57qr3yd1nyntf5k.onion -discover
+</pre></div>
+</div>
+</div>
+<div class="section" id="automatically-listen-on-tor">
+<h2>3. Automatically listen on Tor<a class="headerlink" href="#automatically-listen-on-tor" title="Permalink to this headline">¶</a></h2>
+<p>Starting with Tor version <code class="docutils literal notranslate"><span class="pre">0.2.7.1</span></code> it is possible, through Tor’s control
+socket API, to create and destroy ‘ephemeral’ hidden services programmatically.
+Qogecoin Core has been updated to make use of this.</p>
+<p>This means that if Tor is running (and proper authentication has been
+configured), Qogecoin Core automatically creates a hidden service to listen on.
+This will positively affect the number of available <code class="docutils literal notranslate"><span class="pre">.onion</span></code> nodes.</p>
+<p>This new feature is enabled by default if Qogecoin Core is listening
+(<code class="docutils literal notranslate"><span class="pre">-listen</span></code>), and requires a Tor connection to work. It can be explicitly
+disabled with <code class="docutils literal notranslate"><span class="pre">-listenonion=0</span></code> and, if not disabled, configured using the
+<code class="docutils literal notranslate"><span class="pre">-torcontrol</span></code> and <code class="docutils literal notranslate"><span class="pre">-torpassword</span></code> settings. To show verbose debugging
+information, pass <code class="docutils literal notranslate"><span class="pre">-debug=tor</span></code>.</p>
+<p>Connecting to Tor’s control socket API requires one of two authentication
+methods to be configured. For cookie authentication the user running
+<code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> must have write access to the <code class="docutils literal notranslate"><span class="pre">CookieAuthFile</span></code> specified in Tor
+configuration. In some cases this is preconfigured and the creation of a hidden
+service is automatic.</p>
+<p>If permission problems are seen with <code class="docutils literal notranslate"><span class="pre">-debug=tor</span></code> they can be resolved by
+adding both the user running tor and the user running <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> to the same
+group and setting permissions appropriately. On Debian-based systems the user
+running qogecoind can be added to the debian-tor group, which has the
+appropriate permissions. An alternative authentication method is the use of the
+<code class="docutils literal notranslate"><span class="pre">-torpassword</span></code> flag and a <code class="docutils literal notranslate"><span class="pre">hash-password</span></code> which can be enabled and specified
+in Tor configuration.</p>
+</div>
+<div class="section" id="privacy-recommendations">
+<h2>4. Privacy recommendations<a class="headerlink" href="#privacy-recommendations" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Do not add anything but <code class="docutils literal notranslate"><span class="pre">qogecoin</span></code> ports to the hidden service.</p></li>
+<li><p>If you run a web service too, create a new hidden service for that.
+Otherwise it is trivial to link them, which may reduce privacy. Hidden
+services created automatically (as in section 3) always have only one port
+open.</p></li>
+</ol>
+</div>
+</div>
+
+
+              </div>
+
+
+
+
+
+
+<div class='prev-next-bottom'>
+
+    <div id="prev">
+        <a class="left-prev" href="reduce-traffic.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Reduce Traffic</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="init.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Sample init scripts and service configuration for qogecoind</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By The Qogecoin authors<br/>
+
+            &copy; Copyright 2021, The Qogecoin authors.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+
+  </body>
+</html>

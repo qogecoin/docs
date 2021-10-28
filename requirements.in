@@ -1,0 +1,6 @@
+# Copyright 2021 the Qogecoin authors. All rights reserved.
+
+doc8==0.9.1
+sphinx-book-theme==0.1.6
+wemake-python-styleguide==0.15.3
+pre-commit==2.15.0

@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Block and Transaction Broadcasting with ZeroMQ &#8212; Qogecoin docs</title>
+
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Sample init scripts and service configuration for qogecoind" href="init.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">Qogecoin docs</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-unix.html">
+   Building on Linux
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="build-windows.html">
+   Building on Windows
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="REST-interface.html">
+   Unauthenticated REST Interface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dnsseed-policy.html">
+   Expectations for DNS Seed operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="benchmarking.html">
+   Benchmarking
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="files.html">
+   Files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fuzzing.html">
+   Fuzz-testing Qogecoin Core
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="reduce-traffic.html">
+   Reduce Traffic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tor.html">
+   Tor Support
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="init.html">
+   Sample init scripts and service configuration for qogecoind
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Block and Transaction Broadcasting with ZeroMQ
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/qogecoin/qogecoin"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prerequisites">
+   Prerequisites
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#enabling">
+   Enabling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#usage">
+   Usage
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#remarks">
+   Remarks
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="section" id="block-and-transaction-broadcasting-with-zeromq">
+<h1>Block and Transaction Broadcasting with ZeroMQ<a class="headerlink" href="#block-and-transaction-broadcasting-with-zeromq" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://zeromq.org/">ZeroMQ</a> is a lightweight wrapper around TCP
+connections, inter-process communication, and shared-memory,
+providing various message-oriented semantics such as publish/subscribe,
+request/reply, and push/pull.</p>
+<p>The Qogecoin Core daemon can be configured to act as a trusted “border
+router”, implementing the qogecoin wire protocol and relay, making
+consensus decisions, maintaining the local blockchain database,
+broadcasting locally generated transactions into the network, and
+providing a queryable RPC interface to interact on a polled basis for
+requesting blockchain related data. However, there exists only a
+limited service to notify external software of events like the arrival
+of new blocks or transactions.</p>
+<p>The ZeroMQ facility implements a notification interface through a set
+of specific notifiers. Currently there are notifiers that publish
+blocks and transactions. This read-only facility requires only the
+connection of a corresponding ZeroMQ subscriber port in receiving
+software; it is not authenticated nor is there any two-way protocol
+involvement. Therefore, subscribers should validate the received data
+since it may be out of date, incomplete or even invalid.</p>
+<p>ZeroMQ sockets are self-connecting and self-healing; that is,
+connections made between two endpoints will be automatically restored
+after an outage, and either end may be freely started or stopped in
+any order.</p>
+<p>Because ZeroMQ is message oriented, subscribers receive transactions
+and blocks all-at-once and do not need to implement any sort of
+buffering or reassembly.</p>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>The ZeroMQ feature in Qogecoin Core requires ZeroMQ API version 4.x or
+newer. Typically, it is packaged by distributions as something like
+<code class="docutils literal notranslate"><span class="pre">libzmq3-dev</span></code>. The C++ wrapper for ZeroMQ is <em>not</em> needed.</p>
+<p>In order to run the example Python client scripts in <code class="docutils literal notranslate"><span class="pre">contrib/</span></code> one must
+also install <code class="docutils literal notranslate"><span class="pre">python3-zmq</span></code>, though this is not necessary for daemon
+operation.</p>
+</div>
+<div class="section" id="enabling">
+<h2>Enabling<a class="headerlink" href="#enabling" title="Permalink to this headline">¶</a></h2>
+<p>By default, the ZeroMQ feature is automatically compiled in if the
+necessary prerequisites are found.  To disable, use –disable-zmq
+during the <code class="docutils literal notranslate"><span class="pre">configure</span></code> step of building qogecoind:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ./configure --disable-zmq <span class="o">(</span>other options<span class="o">)</span>
+</pre></div>
+</div>
+<p>To actually enable operation, one must set the appropriate options on
+the command line or in the configuration file.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Currently, the following notifications are supported:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-zmqpubhashtx<span class="o">=</span>address
+-zmqpubhashblock<span class="o">=</span>address
+-zmqpubrawblock<span class="o">=</span>address
+-zmqpubrawtx<span class="o">=</span>address
+</pre></div>
+</div>
+<p>The socket type is <code class="docutils literal notranslate"><span class="pre">PUB</span></code> and the address must be a valid ZeroMQ socket
+address. The same address can be used in more than one notification.</p>
+<p>For instance:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qogecoind -zmqpubhashtx<span class="o">=</span>tcp://127.0.0.1:28332 <span class="se">\</span>
+            -zmqpubrawtx<span class="o">=</span>ipc:///tmp/qogecoind.tx.raw
+</pre></div>
+</div>
+<p>Each <code class="docutils literal notranslate"><span class="pre">PUB</span></code> notification has a topic and body, where the header
+corresponds to the notification type. For instance, for the
+notification <code class="docutils literal notranslate"><span class="pre">-zmqpubhashtx</span></code> the topic is <code class="docutils literal notranslate"><span class="pre">hashtx</span></code> (no null
+terminator) and the body is the hexadecimal transaction hash (32
+bytes).</p>
+<p>These options can also be provided in <code class="docutils literal notranslate"><span class="pre">qogecoin.conf</span></code>.</p>
+<p>ZeroMQ endpoint specifiers for TCP (and others) are documented in the
+<a class="reference external" href="http://api.zeromq.org/4-0:_start">ZeroMQ API</a>.</p>
+<p>Client side, then, the ZeroMQ subscriber socket must have the
+<code class="docutils literal notranslate"><span class="pre">ZMQ_SUBSCRIBE</span></code> option set to one or either of these prefixes (for
+instance, just <code class="docutils literal notranslate"><span class="pre">hash</span></code>); without doing so will result in no messages
+arriving. Please see <code class="docutils literal notranslate"><span class="pre">contrib/zmq/zmq_sub.py</span></code> for a working example.</p>
+</div>
+<div class="section" id="remarks">
+<h2>Remarks<a class="headerlink" href="#remarks" title="Permalink to this headline">¶</a></h2>
+<p>From the perspective of <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code>, the ZeroMQ socket is write-only; <code class="docutils literal notranslate"><span class="pre">PUB</span></code>
+sockets don’t even have a read function. Thus, there is no state
+introduced into qogecoind directly. Furthermore, no information is
+broadcast that wasn’t already received from the public P2P network.</p>
+<p>No authentication or authorization is done on connecting clients; it
+is assumed that the ZeroMQ port is exposed only to trusted entities,
+using other means such as firewalling.</p>
+<p>Note that when the block chain tip changes, a reorganisation may occur
+and just the tip will be notified. It is up to the subscriber to
+retrieve the chain from the last known block to the new tip.</p>
+<p>There are several possibilities that ZMQ notification can get lost
+during transmission depending on the communication type your are
+using. <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> appends an up-counting sequence number to each
+notification which allows listeners to detect lost notifications.</p>
+</div>
+</div>
+
+
+              </div>
+
+
+
+
+
+
+<div class='prev-next-bottom'>
+
+    <div id="prev">
+        <a class="left-prev" href="init.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Sample init scripts and service configuration for qogecoind</p>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By The Qogecoin authors<br/>
+
+            &copy; Copyright 2021, The Qogecoin authors.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+
+  </body>
+</html>

@@ -42,7 +42,7 @@ html_baseurl = 'https://www.qogecoin.org'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_title = 'Qogecoin docs'
+html_title = 'Qogecoin Docs'
 
 html_theme_options = {
     'extra_navbar': '',

@@ -78,6 +78,16 @@ Miscellaneous
    init
    zmq
 
+Guides
+------
+
+.. toctree::
+   :maxdepth: 1
+
+   back-up-wallet
+
+
+
 License
 -------
 

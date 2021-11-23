@@ -84,7 +84,7 @@ Guides
 .. toctree::
    :maxdepth: 1
 
-   back-up-wallet
+   backing-up
 
 
 

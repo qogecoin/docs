@@ -78,6 +78,16 @@ Miscellaneous
    init
    zmq
 
+Guides
+------
+
+.. toctree::
+   :maxdepth: 1
+
+   backing-up
+
+
+
 License
 -------
 

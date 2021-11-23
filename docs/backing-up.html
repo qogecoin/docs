@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; Qogecoin Docs</title>
+    <title>Backing up your wallet &#8212; Qogecoin Docs</title>
 
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -32,9 +32,10 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <link rel="canonical" href="https://www.qogecoin.org/genindex.html" />
-    <link rel="index" title="Index" href="#" />
+    <link rel="canonical" href="https://www.qogecoin.org/backing-up.html" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Block and Transaction Broadcasting with ZeroMQ" href="zmq.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
@@ -124,9 +125,9 @@
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="backing-up.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Backing up your wallet
   </a>
  </li>
@@ -191,11 +192,36 @@
 
               <div>
 
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
-
+  <div class="section" id="backing-up-your-wallet">
+<h1>Backing up your wallet<a class="headerlink" href="#backing-up-your-wallet" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Qogecoin alongside other descendants of Bitcoin have similar commands.
+Keep that in mind when you need to google how something is done.
+If there is something missing from these docs and you are stuck, ask on the Discord.</p>
+</div>
+<p>To back up your wallet, here are some steps you can take.</p>
+<dl class="simple">
+<dt>To get a copy of your <code class="docutils literal notranslate"><span class="pre">wallet.dat</span></code>, you can either:</dt><dd><ul class="simple">
+<li><p>Manually copy the file from your Qogecoin data folder</p></li>
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">backupwallet</span></code> command.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The Qogecoin folder on Windows is:
+<code class="docutils literal notranslate"><span class="pre">C:\Users\YOUR_USERNAME\AppData\Roaming\Qogecoin</span></code></p>
+<p>and Linux: <code class="docutils literal notranslate"><span class="pre">$HOME/.qogecoin</span></code></p>
+<p>Once you have located your <code class="docutils literal notranslate"><span class="pre">wallet.dat</span></code>, copy the file to another location.</p>
+<p>An easier method to backup the wallet is to use the command <code class="docutils literal notranslate"><span class="pre">backupwallet</span></code>,
+alongside the file location to save the file in.</p>
+<p>For example, using the qt wallet console:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Copying your wallet using <code class="docutils literal notranslate"><span class="pre">backupwallet</span></code> on Windows.</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">backupwallet</span> <span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">YOUR_USERNAME</span><span class="p">\</span><span class="n">Downloads</span><span class="p">\</span><span class="n">wallet</span><span class="p">.</span><span class="n">dat</span>
+</pre></div>
+</div>
+</div>
+<p>If you are using qogecoind, prefix the command with <code class="docutils literal notranslate"><span class="pre">qogecoin-cli</span></code>.</p>
 </div>
 
 
@@ -208,6 +234,15 @@
 
 <div class='prev-next-bottom'>
 
+    <div id="prev">
+        <a class="left-prev" href="zmq.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Block and Transaction Broadcasting with ZeroMQ</p>
+            </div>
+        </a>
+    </div>
 
 </div>
 

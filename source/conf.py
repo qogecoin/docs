@@ -3,8 +3,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'docs'
-copyright = '2021, The Qogecoin authors'
-author = 'The Qogecoin authors'
+copyright = '2021, The Qogecoin Authors'
+author = 'The Qogecoin Authors'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1.0'

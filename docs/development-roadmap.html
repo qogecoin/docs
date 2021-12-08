@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reduce Traffic &#8212; Qogecoin Docs</title>
+    <title>Development Roadmap &#8212; Qogecoin Docs</title>
 
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -32,11 +32,11 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <link rel="canonical" href="https://www.qogecoin.org/reduce-traffic.html" />
+    <link rel="canonical" href="https://www.qogecoin.org/development-roadmap.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tor Support" href="tor.html" />
-    <link rel="prev" title="Fuzz-testing Qogecoin Core" href="fuzzing.html" />
+    <link rel="next" title="Community Whitepaper" href="community-whitepaper.html" />
+    <link rel="prev" title="Qogecoin Core" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
@@ -65,9 +65,9 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="development-roadmap.html">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Development Roadmap
   </a>
  </li>
@@ -106,7 +106,7 @@
   </a>
  </li>
 </ul>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="files.html">
    Files
@@ -117,8 +117,8 @@
    Fuzz-testing Qogecoin Core
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="reduce-traffic.html">
    Reduce Traffic
   </a>
  </li>
@@ -203,18 +203,33 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#limit-the-maximum-upload-target">
-   Limit the maximum upload target
+  <a class="reference internal nav-link" href="#quantum-safe-signatures">
+   Quantum-safe signatures
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#disable-listening">
-   Disable listening
+  <a class="reference internal nav-link" href="#reproducible-builds">
+   Reproducible builds
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reduce-maximum-connections">
-   Reduce maximum connections
+  <a class="reference internal nav-link" href="#clang-llvm">
+   Clang/LLVM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#containerization">
+   Containerization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#easy-web-app-integration">
+   Easy web app integration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#grpc-api">
+   gRPC API
   </a>
  </li>
 </ul>
@@ -228,39 +243,90 @@
 
               <div>
 
-  <div class="section" id="reduce-traffic">
-<h1>Reduce Traffic<a class="headerlink" href="#reduce-traffic" title="Permalink to this headline">¶</a></h1>
-<p>Some node operators need to deal with bandwidth caps imposed by their ISPs.</p>
-<p>By default, <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> allows up to 125 connections to different peers, 8 of
-which are outbound. You can therefore, have at most 117 inbound connections.</p>
-<p>The default settings can result in relatively significant traffic consumption.</p>
-<div class="section" id="limit-the-maximum-upload-target">
-<h2>Limit the maximum upload target<a class="headerlink" href="#limit-the-maximum-upload-target" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">-maxuploadtarget=&lt;MiB</span> <span class="pre">per</span> <span class="pre">day&gt;</span></code></p>
-<p>A major component of the traffic is caused by serving historic blocks to other
-nodes during the initial blocks download phase (syncing up a new node).
-This option can be specified in MiB per day and is turned off by default.
-This is <em>not</em> a hard limit; only a threshold to minimize the outbound
-traffic. When the limit is about to be reached, the uploaded data is cut by no
-longer serving historic blocks (blocks older than one week).
-Keep in mind that new nodes require other nodes that are willing to serve
-historic blocks.</p>
-<p>Whitelisted peers will never be disconnected, although their traffic counts for
-calculating the target.</p>
+  <div class="section" id="development-roadmap">
+<h1>Development Roadmap<a class="headerlink" href="#development-roadmap" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This is a draft. We welcome input from the community on how we sould revise
+this roadmap.</p>
 </div>
-<div class="section" id="disable-listening">
-<h2>Disable listening<a class="headerlink" href="#disable-listening" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">-listen=0</span></code></p>
-<p>Disabling listening will result in fewer nodes connected (remember the maximum
-of 8 outbound peers). Fewer nodes will result in less traffic usage as you are
-relaying blocks and transactions to fewer nodes.</p>
+<p>We intend to aggressively modernize the existing codebase and ultimately make
+it as easy as possible to integrate Qogecoin into third-party applications.</p>
+<div class="section" id="quantum-safe-signatures">
+<h2>Quantum-safe signatures<a class="headerlink" href="#quantum-safe-signatures" title="Permalink to this headline">¶</a></h2>
+<p>Qogecoin will introduce a quantum-safe signature type for addresses.</p>
+<p>We are currently waiting for the results of the <a class="reference external" href="https://csrc.nist.gov/projects/post-quantum-cryptography">NIST post-quantum safety
+competition</a> to
+ensure that we choose an academically approved signature scheme.</p>
+<p>See e.g. <a class="reference external" href="https://github.com/PQClean/PQClean">PQClean/PQClean</a>
+and <a class="reference external" href="https://github.com/https://github.com/open-quantum-safe/liboqs">open-quantum-safe/liboqs</a>
+for implementations.</p>
 </div>
-<div class="section" id="reduce-maximum-connections">
-<h2>Reduce maximum connections<a class="headerlink" href="#reduce-maximum-connections" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">-maxconnections=&lt;num&gt;</span></code></p>
-<p>Reducing the maximum connected nodes to a minimum could be desirable if traffic
-limits are tiny. Keep in mind that qogecoin’s trustless model works best if you
-are connected to a handful of nodes.</p>
+<div class="section" id="reproducible-builds">
+<h2>Reproducible builds<a class="headerlink" href="#reproducible-builds" title="Permalink to this headline">¶</a></h2>
+<p>The build system will be switched to <a class="reference external" href="https://docs.bazel.build/versions/4.2.2/bazel-overview.html">Bazel</a>.</p>
+<p>This will sandbox  builds and make them easily reproducible. Build times will be
+reduced significantly. Since Bazel has excellent support for incremental builds,
+collaborators can develop patches faster.</p>
+</div>
+<div class="section" id="clang-llvm">
+<h2>Clang/LLVM<a class="headerlink" href="#clang-llvm" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://llvm.org/">Clang/LLVM</a> project is the de-facto standard of modern
+C++ compiler toolchains.</p>
+<p>This entire toolchain is open source and comes with an industry-friendly
+license. Clang/LLVM supports many tools that will help to improve the code
+quality of the Qogecoin repository, e.g. code linters, formatters and
+sanitizers.</p>
+<p>The <a class="reference external" href="https://clang.llvm.org/docs/ClangFormat.html">ClangFormat</a> formatter is
+able to run without Clang/LLVM as compiler, but the likely most important tool
+<a class="reference external" href="https://clang.llvm.org/extra/clang-tidy/">Clang-Tidy</a> depends on a
+compilation database which needs to be generated from Bazels internal dependency
+graph.</p>
+</div>
+<div class="section" id="containerization">
+<h2>Containerization<a class="headerlink" href="#containerization" title="Permalink to this headline">¶</a></h2>
+<p>Containers are the modern way of distributing software.</p>
+<p>The same container image can be deployed on GNU/Linux, MacOS and Windows, making
+OS-specific compilation paths obsolete. Containerization will make it easy to
+integrate Qogecoin into modern cloud applications.</p>
+<p>E.g. a <a class="reference external" href="https://kubernetes.io/">Kubernetes</a> cluster should be able to start
+Qogecoin nodes or API clients via YAML manifests. We will build containers with
+<a class="reference external" href="https://github.com/bazelbuild/rules_docker">bazelbuild/rules_docker</a>.
+Both build containers and prebuilt binary containers will be pushed to
+container repositories.</p>
+</div>
+<div class="section" id="easy-web-app-integration">
+<h2>Easy web app integration<a class="headerlink" href="#easy-web-app-integration" title="Permalink to this headline">¶</a></h2>
+<p>The Qogecoin daemon should run as a local server that enables GUI interfaces
+accessible via any web browser.</p>
+<p>We target a component layout that clearly separates the Qogecoin daemon from
+other components. Since we intend to run the Qogecoin daemon containerized per
+default, the most elegant way of distributing GUI applications for Qogecoin will
+be to serve them as locally hosted web apps.</p>
+</div>
+<div class="section" id="grpc-api">
+<h2>gRPC API<a class="headerlink" href="#grpc-api" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://grpc.io/docs/what-is-grpc/introduction/">gRPC</a> framework is a
+modern RPC API.</p>
+<p>An App developer may want to query the Qogecoin API with Dart/Flutter, while a
+cloud backend developer may want to query the API with Go.</p>
+<p>With gRPC we can distribute autogenerated API stubs for 11 officially supported
+languages and other community-supported languages, so that third-party
+developers can use the optimal language for their requirements.</p>
+<p>The officially supported languages are:</p>
+<ul class="simple">
+<li><p>C#</p></li>
+<li><p>C++</p></li>
+<li><p>Dart</p></li>
+<li><p>Go</p></li>
+<li><p>Java</p></li>
+<li><p>Kotlin</p></li>
+<li><p>Node</p></li>
+<li><p>Objective-C</p></li>
+<li><p>PHP</p></li>
+<li><p>Python</p></li>
+<li><p>Ruby</p></li>
+</ul>
 </div>
 </div>
 
@@ -275,19 +341,19 @@ are connected to a handful of nodes.</p>
 <div class='prev-next-bottom'>
 
     <div id="prev">
-        <a class="left-prev" href="fuzzing.html" title="previous page">
+        <a class="left-prev" href="index.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Fuzz-testing Qogecoin Core</p>
+                <p class="prevnext-title">Qogecoin Core</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="tor.html" title="next page">
+        <a class="right-next" href="community-whitepaper.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Tor Support</p>
+                <p class="prevnext-title">Community Whitepaper</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

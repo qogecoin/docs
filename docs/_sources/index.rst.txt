@@ -1,41 +1,29 @@
-Qogecoin Core 0.14.2
-=====================
+Qogecoin Core
+=============
 
 .. figure:: _static/qoge.png
    :width: 256
    :align: center
 
 Qogecoin Core is the original Qogecoin client and it builds the backbone of the
-network. However, it downloads and stores the entire history of Qogecoin
-transactions; depending on the speed of your computer and network connection,
-the synchronization process can take anywhere from a few hours to a day or more.
+network. It downloads and stores the entire history of Qogecoin transactions;
+depending on the speed of your computer and network connection, the
+synchronization process may take a while.
 
 Precompiled binaries are available at `<https://github.com/qogecoin/qogecoin/releases>`_.
 
 Discord: `<https://discord.gg/T8uYSDmtde>`_.
 
-Running
----------------------
-The following are some helpful notes on how to run Qogecoin on your native
-platform.
+Bitcointalk: `<https://bitcointalk.org/index.php?topic=5366189.0>`_.
 
-Unix
-----
+Roadmaps
+--------
 
-Unpack the files into a directory and run ``bin/qogecoin-qt`` (GUI) or
-``bin/qogecoind`` (headless).
+.. toctree::
+   :maxdepth: 1
 
-Windows
--------
-
-Unpack the files into a directory, and then run qogecoin-qt.exe.
-
-Need Help?
-----------
-
-* See the documentation at the `Qogecoin Wiki <https://qogecoin.org>`_ for help
-   and more information.
-* Ask for help on `BitcoinTalk <https://qogecointalk.io/>`_ forums.
+   development-roadmap
+   community-whitepaper
 
 Building
 --------
@@ -52,10 +40,8 @@ libraries, compile flags, etc.
 Development
 -----------
 
-The `Qogecoin docs <https://qogecoin.org>`_ contains relevant
-information on the development process and automated testing.
-
-.. - [Source Code Documentation (External Link)](https://dev.visucore.com/qogecoin/doxygen/)
+The `Qogecoin docs <https://qogecoin.org>`_ contain relevant information on the
+development process and automated testing.
 
 .. toctree::
    :maxdepth: 1

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reduce Traffic &#8212; Qogecoin Docs</title>
+    <title>Community Whitepaper &#8212; Qogecoin Docs</title>
 
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -32,11 +32,11 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <link rel="canonical" href="https://www.qogecoin.org/reduce-traffic.html" />
+    <link rel="canonical" href="https://www.qogecoin.org/community-whitepaper.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tor Support" href="tor.html" />
-    <link rel="prev" title="Fuzz-testing Qogecoin Core" href="fuzzing.html" />
+    <link rel="next" title="Building on Linux" href="build-unix.html" />
+    <link rel="prev" title="Development Roadmap" href="development-roadmap.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
@@ -65,14 +65,14 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="development-roadmap.html">
    Development Roadmap
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="community-whitepaper.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Community Whitepaper
   </a>
  </li>
@@ -106,7 +106,7 @@
   </a>
  </li>
 </ul>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="files.html">
    Files
@@ -117,8 +117,8 @@
    Fuzz-testing Qogecoin Core
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="reduce-traffic.html">
    Reduce Traffic
   </a>
  </li>
@@ -197,29 +197,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
 
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#limit-the-maximum-upload-target">
-   Limit the maximum upload target
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#disable-listening">
-   Disable listening
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reduce-maximum-connections">
-   Reduce maximum connections
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -228,39 +205,10 @@
 
               <div>
 
-  <div class="section" id="reduce-traffic">
-<h1>Reduce Traffic<a class="headerlink" href="#reduce-traffic" title="Permalink to this headline">¶</a></h1>
-<p>Some node operators need to deal with bandwidth caps imposed by their ISPs.</p>
-<p>By default, <code class="docutils literal notranslate"><span class="pre">qogecoind</span></code> allows up to 125 connections to different peers, 8 of
-which are outbound. You can therefore, have at most 117 inbound connections.</p>
-<p>The default settings can result in relatively significant traffic consumption.</p>
-<div class="section" id="limit-the-maximum-upload-target">
-<h2>Limit the maximum upload target<a class="headerlink" href="#limit-the-maximum-upload-target" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">-maxuploadtarget=&lt;MiB</span> <span class="pre">per</span> <span class="pre">day&gt;</span></code></p>
-<p>A major component of the traffic is caused by serving historic blocks to other
-nodes during the initial blocks download phase (syncing up a new node).
-This option can be specified in MiB per day and is turned off by default.
-This is <em>not</em> a hard limit; only a threshold to minimize the outbound
-traffic. When the limit is about to be reached, the uploaded data is cut by no
-longer serving historic blocks (blocks older than one week).
-Keep in mind that new nodes require other nodes that are willing to serve
-historic blocks.</p>
-<p>Whitelisted peers will never be disconnected, although their traffic counts for
-calculating the target.</p>
-</div>
-<div class="section" id="disable-listening">
-<h2>Disable listening<a class="headerlink" href="#disable-listening" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">-listen=0</span></code></p>
-<p>Disabling listening will result in fewer nodes connected (remember the maximum
-of 8 outbound peers). Fewer nodes will result in less traffic usage as you are
-relaying blocks and transactions to fewer nodes.</p>
-</div>
-<div class="section" id="reduce-maximum-connections">
-<h2>Reduce maximum connections<a class="headerlink" href="#reduce-maximum-connections" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">-maxconnections=&lt;num&gt;</span></code></p>
-<p>Reducing the maximum connected nodes to a minimum could be desirable if traffic
-limits are tiny. Keep in mind that qogecoin’s trustless model works best if you
-are connected to a handful of nodes.</p>
+  <div class="section" id="community-whitepaper">
+<h1>Community Whitepaper<a class="headerlink" href="#community-whitepaper" title="Permalink to this headline">¶</a></h1>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/community-whitepaper.jpg"><img alt="_images/community-whitepaper.jpg" src="_images/community-whitepaper.jpg" style="width: 512px;" /></a>
 </div>
 </div>
 
@@ -275,19 +223,19 @@ are connected to a handful of nodes.</p>
 <div class='prev-next-bottom'>
 
     <div id="prev">
-        <a class="left-prev" href="fuzzing.html" title="previous page">
+        <a class="left-prev" href="development-roadmap.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Fuzz-testing Qogecoin Core</p>
+                <p class="prevnext-title">Development Roadmap</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="tor.html" title="next page">
+        <a class="right-next" href="build-unix.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Tor Support</p>
+                <p class="prevnext-title">Building on Linux</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

@@ -10,6 +10,8 @@ network. It downloads and stores the entire history of Qogecoin transactions;
 depending on the speed of your computer and network connection, the
 synchronization process may take a while.
 
+:download:`whitepaper <_static/qogecoin_whitepaper.pdf>`
+
 Precompiled binaries are available at `<https://github.com/qogecoin/qogecoin/releases>`_.
 
 Discord: `<https://discord.gg/T8uYSDmtde>`_.
